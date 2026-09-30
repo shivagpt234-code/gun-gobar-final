@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Gun Gobar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/data.js"></script>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="nav-logo-icon">🌿</span>
+      <div><span class="nav-logo-text">Gun Gobar</span><span class="nav-logo-sub">Pure &bull; Handmade &bull; Eco</span></div>
+    </a>
+    <ul class="nav-links" id="navMenu">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="products.html" class="nav-link">Shop</a></li>
+      <li><a href="bulk-orders.html" class="nav-link">Bulk Orders</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+      <li><a href="admin.html" class="nav-link">Admin</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header container">
+  <span class="section-label">All Products</span>
+  <h1 class="section-title">Our Handcrafted Collection</h1>
+  <p class="section-subtitle">Every piece is made by hand with love and zero chemicals. Order directly on Amazon.</p>
+</div>
+
+<div class="container">
+  <!-- Search -->
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search products, categories…" autocomplete="off" />
+  </div>
+
+  <!-- Controls: Category tabs + Sort -->
+  <div class="controls-bar">
+    <div class="category-tabs" id="categoryTabs"></div>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="low">Price: Low to High 🔼</option>
+      <option value="high">Price: High to Low 🔽</option>
+    </select>
+  </div>
+
+  <!-- Grid -->
+  <div class="product-grid" id="productGrid"></div>
+  <div style="padding-bottom:5rem;"></div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="footer-logo">🌿 Gun Gobar</div><p>Handcrafted eco-products from cow dung. Sustainable living, Indian tradition.</p></div>
+      <div class="footer-col"><h4>Shop</h4><ul><li><a href="products.html">All Products</a></li><li><a href="bulk-orders.html">Bulk Orders</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="index.html#about">About Us</a></li><li><a href="index.html#contact">Contact</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:hello@gungobar.com">hello@gungobar.com</a></li><li><a href="tel:+911234567890">+91 12345 67890</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>&copy; 2024 Gun Gobar.</span><span>Made with 🌿 for Mother Earth</span></div>
+  </div>
+</footer>
+
+<script src="/main.js"></script>
+<script src="/products.js"></script>
+</body>
+</html>
+
+
+

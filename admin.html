@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Gun Gobar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/data.js"></script>
+</head>
+<body>
+<div class="admin-wrapper">
+
+  <!-- Login -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-icon">🔐</div>
+      <h2>Admin Login</h2>
+      <p>Enter your password to manage Gun Gobar.</p>
+      <div class="login-error" id="loginError"></div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" id="adminPassword" placeholder="Enter admin password" required />
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;">Login →</button>
+      </form>
+      <p style="margin-top:1.5rem;font-size:.8rem;color:var(--text-muted);">Hint: <code>gobar@admin</code></p>
+      <a href="index.html" style="display:block;margin-top:1rem;font-size:.85rem;color:var(--text-muted);text-align:center;">← Back to website</a>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" style="display:none;">
+    <nav class="admin-nav">
+      <div class="admin-nav-logo">🌿 Gun Gobar Admin</div>
+      <div style="display:flex;gap:.75rem;align-items:center;">
+        <a href="index.html" class="btn-secondary" style="padding:.45rem 1rem;font-size:.85rem;">View Site</a>
+        <button class="btn-primary" onclick="handleLogout()" style="padding:.45rem 1rem;font-size:.85rem;">Logout</button>
+      </div>
+    </nav>
+
+    <div class="admin-body">
+
+      <!-- Stats -->
+      <div style="margin-bottom:1.5rem;">
+        <span class="section-label">Overview</span>
+        <h2 class="section-title" style="margin-bottom:1rem;">Dashboard</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="statTotal">–</div><div class="stat-label">Total Products</div></div>
+        <div class="stat-card"><div class="stat-num" id="statFeatured">–</div><div class="stat-label">Featured</div></div>
+        <div class="stat-card"><div class="stat-num" id="statInquiries" style="color:var(--ochre);">–</div><div class="stat-label">Bulk Enquiries</div></div>
+        <div class="stat-card"><div class="stat-num" id="statCategories">–</div><div class="stat-label">Categories</div></div>
+      </div>
+
+      <!-- Manage Categories -->
+      <div class="admin-section">
+        <h3 class="admin-section-title">🏷️ Manage Categories</h3>
+        <div class="cats-manager" id="categoryList"></div>
+        <form class="add-cat-form" onsubmit="handleAddCategory(event)">
+          <input class="form-input" id="newCategoryInput" type="text" placeholder="New category name…" style="max-width:280px;" required />
+          <button type="submit" class="btn-primary" style="padding:.65rem 1.25rem;">Add Category</button>
+        </form>
+      </div>
+
+      <!-- Add Product -->
+      <div class="admin-section">
+        <h3 class="admin-section-title">➕ Add New Product</h3>
+        <form onsubmit="handleAddProduct(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Product Name *</label>
+              <input class="form-input" name="name" placeholder="e.g. Handcrafted Cow Dung Diya" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category *</label>
+              <select class="form-select" name="category" id="add_category" required>
+                <option value="">Select category…</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Price (₹) *</label>
+              <input class="form-input" name="price" type="number" min="1" placeholder="99" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Original Price (₹)</label>
+              <input class="form-input" name="originalPrice" type="number" min="1" placeholder="149 (optional, for discount)" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Emoji / Icon</label>
+              <input class="form-input" name="emoji" placeholder="🪔 (paste an emoji)" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tags (comma-separated)</label>
+              <input class="form-input" name="tags" placeholder="diya, festival, eco" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amazon Product Link *</label>
+            <input class="form-input" name="amazonLink" type="url" placeholder="https://www.amazon.in/dp/..." required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description *</label>
+            <textarea class="form-textarea" name="description" placeholder="Describe your product…" required></textarea>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label class="form-label">Product Photos (up to 5)</label>
+            <div class="img-upload-area" id="addUploadArea">
+              <div class="img-add-slot" id="addUploadSlot"><span>+</span><small>Add Photo</small></div>
+            </div>
+            <div id="addPreview" style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.75rem;"></div>
+            <p class="upload-hint">Click to upload. Images are compressed and stored locally. Max 5 photos.</p>
+          </div>
+
+          <div class="checkbox-group form-group">
+            <input type="checkbox" name="featured" id="featuredCheck" />
+            <label for="featuredCheck">⭐ Mark as Featured (shown on homepage)</label>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <button type="submit" class="btn-primary">Add Product ✅</button>
+            <button type="reset" class="btn-secondary" onclick="addImages=[];renderImagePreview('addPreview',addImages);">Reset Form</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Product Table -->
+      <div class="admin-section" id="productTableSection">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+          <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);margin:0;">📦 All Products</h3>
+          <button class="btn-secondary" onclick="handleReset()" style="font-size:.82rem;padding:.4rem 1rem;">↺ Reset to Defaults</button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="products-table">
+            <thead>
+              <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Featured</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bulk Inquiries -->
+      <div class="admin-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+          <h3 style="font-size:1.1rem;font-weight:700;margin:0;">📩 Bulk Order Enquiries</h3>
+          <button class="btn-delete" onclick="handleClearInquiries()" style="padding:.4rem 1rem;font-size:.82rem;">🗑️ Clear All</button>
+        </div>
+        <div id="inquiryList"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box" style="max-width:680px;">
+    <button class="modal-close" onclick="closeEditModal()">✕</button>
+    <div style="padding:2rem;">
+      <h2 style="margin-bottom:1.5rem;font-size:1.3rem;">✏️ Edit Product</h2>
+      <form onsubmit="handleEditProduct(event)">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Product Name *</label><input class="form-input" name="name" id="edit_name" required /></div>
+          <div class="form-group"><label class="form-label">Category *</label><select class="form-select" name="category" id="edit_category" required><option value="">Select…</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Price (₹) *</label><input class="form-input" name="price" id="edit_price" type="number" min="1" required /></div>
+          <div class="form-group"><label class="form-label">Original Price (₹)</label><input class="form-input" name="originalPrice" id="edit_originalPrice" type="number" min="1" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Emoji</label><input class="form-input" name="emoji" id="edit_emoji" /></div>
+          <div class="form-group"><label class="form-label">Tags</label><input class="form-input" name="tags" id="edit_tags" /></div>
+        </div>
+        <div class="form-group"><label class="form-label">Amazon Link *</label><input class="form-input" name="amazonLink" id="edit_amazonLink" type="url" required /></div>
+        <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" name="description" id="edit_description" required></textarea></div>
+
+        <!-- Edit Image Upload -->
+        <div class="form-group">
+          <label class="form-label">Product Photos (up to 5)</label>
+          <div id="editPreview" style="display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:.5rem;"></div>
+          <div class="img-upload-area" id="editUploadArea" style="min-height:60px;">
+            <div class="img-add-slot" id="editUploadSlot"><span>+</span><small>Add Photo</small></div>
+          </div>
+          <p class="upload-hint">Click to add more photos.</p>
+        </div>
+
+        <div class="checkbox-group form-group">
+          <input type="checkbox" name="featured" id="edit_featured" />
+          <label for="edit_featured">⭐ Mark as Featured</label>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;">
+          <button type="submit" class="btn-primary">Save Changes ✅</button>
+          <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/main.js"></script>
+<script src="/admin.js"></script>
+<script>
+// Init image upload areas on load
+document.addEventListener('DOMContentLoaded', () => {
+  // Add product upload
+  renderImagePreview('addPreview', addImages);
+  document.getElementById('addUploadSlot').onclick = () => {
+    if (addImages.length >= 5) { showToast('Max 5 images allowed.', 'info'); return; }
+    const input = document.createElement('input');
+    input.type = 'file'; input.accept = 'image/*'; input.multiple = true;
+    input.onchange = async e => {
+      const files = Array.from(e.target.files).slice(0, 5 - addImages.length);
+      for (const f of files) addImages.push(await compressImage(f));
+      renderImagePreview('addPreview', addImages);
+    };
+    input.click();
+  };
+
+  // Edit upload
+  document.getElementById('editUploadSlot').onclick = () => {
+    if (editImages.length >= 5) { showToast('Max 5 images allowed.', 'info'); return; }
+    const input = document.createElement('input');
+    input.type = 'file'; input.accept = 'image/*'; input.multiple = true;
+    input.onchange = async e => {
+      const files = Array.from(e.target.files).slice(0, 5 - editImages.length);
+      for (const f of files) editImages.push(await compressImage(f));
+      renderImagePreview('editPreview', editImages);
+    };
+    input.click();
+  };
+});
+</script>
+</body>
+</html>
+
+
+
